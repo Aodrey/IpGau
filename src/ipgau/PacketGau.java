@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.html.HTMLDocument;
 
 /**
  * IP GAU メイン
@@ -26,20 +27,23 @@ import javax.swing.JTextField;
  */
 public class PacketGau extends JFrame implements DropTargetListener {
 
-	public static PacketGau frame;
+	private static PacketGau frame;
     private static JPanel contentPane;
     private static JEditorPane epMsgView;
     private static JScrollPane mvsp;
-    static JTextField tfMessage;
-    static JTextField tfAddress;
+    private static JTextField tfMessage;
+    private static JTextField tfAddress;
     private static JButton btnSend;
+    private static JButton btnAddress;
 
 	private static final int gauWidth = 410;  // ウィンドウ横幅デフォルト
-	private static final int gauHeight = 310;  // ウィンドウ高さデフォルト
+	private static final int gauHeight = 320;  // ウィンドウ高さデフォルト
 	
 	// 表示位置
-	static int frameX;
-	static int frameY;
+	private static int frameX;
+	private static int frameY;
+	
+	private static String host_nm;
 
 	
 	/**
@@ -58,7 +62,7 @@ public class PacketGau extends JFrame implements DropTargetListener {
         
         frame.setLocation(frameX,frameY);
 
-
+        tfAddress.setText(host_nm);  // 送信先ホスト名セット
         // GUI(フレーム)表示
         frame.setVisible(true);
 		
@@ -75,11 +79,27 @@ public class PacketGau extends JFrame implements DropTargetListener {
      * 初期化処理
      */
     private void initGau() {
-    	
+
+        // 設定ファイルデフォルトセット
+        host_nm = "192.168.0.5";
+
+        // メッセージ表示欄
+        epMsgView = new JEditorPane("text/html","");
+        epMsgView.setDocument(new HTMLDocument());
+        epMsgView.setEditable(false);
+        
         // メッセージ表示欄スクロールバー
         mvsp = new JScrollPane(epMsgView);
         mvsp.setBounds(10, 10, 373, 190);
 
+        // メッセージ入力欄
+        tfMessage = new JTextField("");
+        tfMessage.setBounds(36, 208, 295, 22);
+
+        // 宛先入力欄
+        tfAddress = new JTextField("");
+        tfAddress.setBounds(36, 238, 295, 22);
+        
         // 送信ボタン
         btnSend = new JButton("送信");
         btnSend.setBounds(333, 207, 48, 24);
@@ -91,11 +111,25 @@ public class PacketGau extends JFrame implements DropTargetListener {
         });
         btnSend.setToolTipText("送信ボタン");
         
+        // 起動中宛先選択ボタン
+        btnAddress = new JButton();
+        btnAddress.setBounds(10, 237, 24, 24);
+        btnAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // buttonAdrConf();
+            	System.out.println("宛先変更！");
+            }
+        });
+        btnAddress.setToolTipText("宛先変更");
+        
         // フレーム（パネル）
         contentPane = (JPanel)this.getContentPane();
         contentPane.setLayout(null);
         contentPane.add(mvsp, null);
+        contentPane.add(tfMessage, null);
+        contentPane.add(tfAddress, null);
         contentPane.add(btnSend, null);
+        contentPane.add(btnAddress, null);
     }
 
 	/* (non-Javadoc)
