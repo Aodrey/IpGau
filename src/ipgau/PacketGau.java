@@ -11,13 +11,19 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.html.HTMLDocument;
 
@@ -114,13 +120,47 @@ public class PacketGau extends JFrame implements DropTargetListener {
         // 起動中宛先選択ボタン
         btnAddress = new JButton();
         btnAddress.setBounds(10, 237, 24, 24);
-        btnAddress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // buttonAdrConf();
-            	System.out.println("宛先変更！");
-            }
-        });
         btnAddress.setToolTipText("宛先変更");
+        btnAddress.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			        JList jl = null;
+			        JTextArea ta = null;
+			        JComboBox cb = null;
+			        JScrollPane sc = null;
+
+			        Object[] ret = null;
+			        Object ob = null;
+			        Object[] btn = {"はい","いいえ"};
+			        int dicon = JOptionPane.PLAIN_MESSAGE;
+
+			        // ラベル
+			        JLabel lb = new JLabel("aiueo");
+
+		            // とりあえずラベルのみ
+	                btn = new Object[1];
+	                btn[0] = "閉じる";
+		            dicon = JOptionPane.INFORMATION_MESSAGE;
+		            
+
+			        Object[] obj = {lb,ob};
+			        int ans = JOptionPane.showOptionDialog(frame,obj,"たいとる",JOptionPane.OK_CANCEL_OPTION,dicon,null,btn,null);
+
+			        if (ans == 0) {
+
+		                Object[] wk_obj = {"yes"};
+		                ret = wk_obj;
+		                
+			        } else if (ans == 2) {
+
+			        } else if (ans == 3) {
+
+			        }
+
+			}
+        	
+        });
         
         // フレーム（パネル）
         contentPane = (JPanel)this.getContentPane();
